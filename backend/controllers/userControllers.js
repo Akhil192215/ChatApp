@@ -5,7 +5,6 @@ const { use } = require("../routes/userRoutes");
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, pic } = req.body;
-  console.log(name, email, password);
   if (!name || !email || !password) {
     res.send(400);
     throw new Error("Please enter all fields");
@@ -39,6 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser =asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+  console.log(email, password );
   if (!email || !password) {
     res.send(400);
     throw new Error("Please enter all fields");
