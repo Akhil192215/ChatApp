@@ -65,4 +65,32 @@ const fetchChat = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { accessChat, fetchChat };
+const createGroupChat = asyncHandler(async (req, res) => {
+  if (!req.body.users || !req.body.name) {
+    return res.status(400).json({ message: "please fill all the fields" });
+  }
+  var users = JSON.parse(req.body.users);
+  if (users.length < 2) {
+    return res
+      .status(400)
+      .json({ message: "more than two users required to create a group" });
+  }
+  users.push(req.user);
+
+  try {
+    const group = await Chat.create({
+      chatName: req.body.name,
+      users: users,
+      isGroupChat: true,
+      groupAdmin: req.user,
+    });
+    const fullGroupChat = await Chat.findOne({ _id: group._id })
+      .populate("users", "-password")
+      .populate("groupAdmin", "-password");
+    res.status(200).json({ fullGroupChat });
+  } catch (error) {
+    res.send(400);
+    throw new Error(error.message);
+  }
+});
+module.exports = { accessChat, fetchChat, createGroupChat };
