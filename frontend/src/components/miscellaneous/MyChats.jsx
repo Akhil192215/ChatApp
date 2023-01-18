@@ -9,7 +9,6 @@ import GroupModal from "../miscellaneous/GroupModal";
 import ProfileModal from "./ProfileModal";
 import GroupChatModal from "./GroupChatModal";
 
-
 const MyChats = () => {
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
   const [loggedUser, setLoggedUser] = useState();
@@ -36,6 +35,7 @@ const MyChats = () => {
   };
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
+
     fetchChat();
   }, []);
 
@@ -61,19 +61,15 @@ const MyChats = () => {
         alignItems="center"
       >
         My chats
-   
-      < GroupChatModal>
-      <Button
+        <GroupModal>
+          <Button
             display="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
             rightIcon={<AddIcon />}
-            >
+          >
             New Group Chat
           </Button>
-      </GroupChatModal>
-          
-         
-   
+        </GroupModal>
       </Box>
       <Box
         d="flex"
